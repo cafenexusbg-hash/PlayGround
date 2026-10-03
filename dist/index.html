@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>VEER: Wrath of the Asuras — Indian Myth Hack &amp; Slash</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%231a0d06'/%3E%3Ctext x='32' y='44' font-size='36' text-anchor='middle' fill='%23ff9d00'%3E%E0%A5%90%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Mukta:wght@400;600;800&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="./assets/index-BW8IdKYQ.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BToBpaaW.css">
+</head>
+<body>
+  <div id="app">
+    <canvas id="game-canvas"></canvas>
+
+    <!-- damage numbers layer -->
+    <div id="dmg-layer"></div>
+    <!-- screen effects -->
+    <div id="vignette"></div>
+    <div id="rage-vignette"></div>
+    <div id="hit-flash"></div>
+
+    <!-- HUD -->
+    <div id="hud" class="hidden">
+      <div id="hud-top-left">
+        <div id="player-plate">
+          <div id="player-name">VEER <span id="rage-stars">ॐ</span></div>
+          <div class="bar-wrap hp-wrap"><div id="hp-bar"></div><div id="hp-ghost"></div><span id="hp-text">200</span></div>
+          <div class="bar-wrap rage-wrap"><div id="rage-bar"></div><span id="rage-text">RUDRA RAGE [R]</span></div>
+          <div id="combo-line"><span id="combo-count">0 HITS</span><span id="combo-timer-bar"><i id="combo-fill"></i></span></div>
+        </div>
+      </div>
+      <div id="hud-top-center">
+        <div id="wave-banner">WAVE 1</div>
+        <div id="enemies-left">ASURAS LEFT: 4</div>
+        <div id="boss-wrap" class="hidden">
+          <div id="boss-name">🐃 MAHISHASURA · BUFFALO KING</div>
+          <div class="bar-wrap boss-wrap"><div id="boss-bar"></div></div>
+        </div>
+      </div>
+      <div id="hud-top-right">
+        <div id="score-box">पुण्य <span id="score">0</span></div>
+        <div id="kills-box">SLAIN <span id="kills">0</span></div>
+        <div id="tejas-box">✨ TEJAS <span id="tejas">0</span></div>
+        <button id="voice-btn" title="Hindi voiceover on/off">🔊 वाणी: ON</button>
+      </div>
+      <div id="hud-bottom-center">
+        <div id="controls-hint">WASD move · Mouse look · <b>LMB/J</b> light · <b>RMB/K</b> heavy · <b>Space</b> dodge · <b>Q</b> block · <b>R</b> rage · <b>P</b> pause</div>
+        <div id="touch-hint">👈 Left thumb: move · Right thumb: camera · 👉 Buttons: attack</div>
+        <div id="interact-tip" class="hidden"></div>
+      </div>
+      <div id="crosshair">◎</div>
+      <div id="move-name"></div>
+      <div id="rotate-hint">📱 Rotate phone for best view</div>
+      <div id="announce" class="hidden"></div>
+      <!-- Mobile touch controls (shown only on touch devices) -->
+      <div id="touch-ui">
+        <div id="joy-base"><div id="joy-knob"></div></div>
+        <div id="touch-buttons">
+          <button id="btn-rage" class="tbtn small" title="Rudra Rage">🔥</button>
+          <button id="btn-block" class="tbtn" title="Block (hold)">🛡️</button>
+          <button id="btn-heavy" class="tbtn" title="Heavy attack">🔨</button>
+          <button id="btn-dodge" class="tbtn" title="Dodge roll">🌀</button>
+          <button id="btn-atk" class="tbtn big" title="Light attack">⚔️</button>
+        </div>
+        <button id="btn-pause" class="tbtn mini" title="Pause">⏸</button>
+      </div>
+    </div>
+
+    <!-- Title screen -->
+    <div id="title-screen">
+      <div id="title-ornament">॥ शुभ ॥ &nbsp; 卐 &nbsp; ॥ लाभ ॥</div>
+      <h1 id="game-title"><span class="small">॥</span> VEER <span class="small">॥</span></h1>
+      <h2 id="game-sub">WRATH OF THE ASURAS</h2>
+      <p id="story">
+        Kali Yuga falls. The buffalo-demon <b>Mahishasura</b> has defiled the Temple of Agni
+        and raised his Asura legions. The gods are silent — so one mortal must answer.<br>
+        You are <b>Veer</b>, last Kshatriya of the Solar Line, blade of Dharma.<br>
+        Carve through the horde. Build your <b>Rudra Rage</b>. End the King.<br>
+        But the dying King whispers a terrible truth — <b>the gods themselves lit the fire</b>.<br>
+        Three acts. Chained <b>Blades of Agni</b>. One reckoning — all the way to Heaven.
+      </p>
+      <div id="title-features">
+        <div>⚔️ 3-hit combo + heavy finisher</div>
+        <div>🔗 Chained Blades of Agni</div>
+        <div>🛡️ Dodge i-frames · block &amp; parry</div>
+        <div>🔥 Rudra Rage god-mode</div>
+        <div>🏟️ 3 acts · Mahisha → Indra</div>
+      </div>
+      <button id="start-btn">⚔️ &nbsp;BEGIN THE YUDDHA&nbsp; ⚔️</button>
+      <div id="title-controls">
+        <div><b>WASD</b> move &nbsp;·&nbsp; <b>Mouse</b> camera (click to lock)</div>
+        <div><b>LMB / J</b> light attack &nbsp;·&nbsp; <b>RMB / K</b> heavy &nbsp;·&nbsp; <b>SPACE</b> dodge roll</div>
+        <div><b>Q hold</b> block &nbsp;·&nbsp; <b>R</b> Rudra Rage &nbsp;·&nbsp; <b>P</b> pause &nbsp;·&nbsp; <b>G</b> fullscreen</div>
+        <div>🔊 <b>Hindi voiceover</b> — युद्ध-घोषणा (toggle button: top-right)</div>
+        <div id="title-touch-controls">📱 <b>Mobile:</b> left thumb = move · right thumb = camera · on-screen buttons = attack / dodge / block / rage</div>
+        <div class="desktop-note">🖥️ Desktop · Keyboard + Mouse &nbsp;·&nbsp; 📱 Mobile · Touch supported</div>
+      </div>
+      <div id="title-foot">A God-of-War-style tribute · Indian mythology · Three.js</div>
+    </div>
+
+    <!-- Pause -->
+    <div id="pause-screen" class="hidden overlay">
+      <h2>⏸️ VIRAM — PAUSED</h2>
+      <p>Take breath, warrior. Dharma waits.</p>
+      <button id="resume-btn">RESUME</button>
+      <button id="restart-btn-1" class="ghost">RESTART YUDDHA</button>
+    </div>
+
+    <!-- Boon / weapon-upgrade shrine (between waves) -->
+    <div id="boon-screen" class="hidden overlay">
+      <div class="om gold">॥ वरदान ॥</div>
+      <h2>THE GODS OFFER A BOON</h2>
+      <p>Spend your <b>✨ Tejas</b> (<span id="boon-tejas">0</span>) — or fight on unaided. <span class="dim">[1/2/3] buy · [Enter] fight on</span></p>
+      <div id="boon-cards"></div>
+      <button id="boon-skip">⚔️ FIGHT ON</button>
+    </div>
+
+    <!-- Cinematic letterbox + story dialogue -->
+    <div id="letterbox-top"></div>
+    <div id="letterbox-bot"></div>
+    <div id="dialogue" class="hidden">
+      <div id="dlg-speaker">VEER</div>
+      <div id="dlg-text"></div>
+      <div id="dlg-hint">tap / Enter ▶ &nbsp;·&nbsp; <span id="dlg-skip">SKIP ⏭</span></div>
+    </div>
+
+    <!-- Death -->
+    <div id="death-screen" class="hidden overlay">
+      <div class="om">ॐ</div>
+      <h2>VEER HAS FALLEN</h2>
+      <p id="death-stats">Waves cleared…</p>
+      <p class="quote">“नैनं छिन्दन्ति शस्त्राणि — the soul is never slain. Rise again.”</p>
+      <button id="reborn-btn">🔥 PUNARJANMA — REBORN</button>
+    </div>
+
+    <!-- Victory -->
+    <div id="victory-screen" class="hidden overlay">
+      <div class="om gold">॥ विजय ॥</div>
+      <h2 id="victory-title">MAHISHASURA SLAIN!</h2>
+      <p id="victory-stats"></p>
+      <p class="quote">“धर्मो रक्षति रक्षितः — Dharma protects those who protect it.”</p>
+      <button id="again-btn">⚔️ FIGHT AGAIN</button>
+    </div>
+
+    <div id="loading">🔥 Kindling the sacred fire…</div>
+  </div>
+</body>
+</html>

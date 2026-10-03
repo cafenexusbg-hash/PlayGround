@@ -1,0 +1,18 @@
+{
+  "name": "veer-wrath-of-asuras",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "VEER: Wrath of the Asuras — Indian-myth God of War style hack & slash (3D, desktop)",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}
